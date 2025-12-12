@@ -1,0 +1,21 @@
+
+name: Kubernetes Manifest Lint
+
+on:
+  pull_request:
+    paths:
+      - 'labs/**'
+      - '.github/**'
+
+jobs:
+  kube-linter:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install kube-linter
+      run: |
+        curl -sSL https://github.com/stackrox/kube-linter/releases/latest/download/kube-linter-linux-amd64.tar.gz | tar -xz
+        sudo mv kube-linter /usr/local/bin/
+    - name: Run kube-linter on labs
+      run: |
+        kube-linter lint ./labs

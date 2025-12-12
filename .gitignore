@@ -1,0 +1,23 @@
+
+# Python
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+
+# System
+.DS_Store
+Thumbs.db
+
+# Terraform
+*.tfstate
+*.tfstate.*
+
+# IDEs
+.vscode/
+*.swp
+
+# Kubernetes sensitive / local files
+*.kubeconfig
+secrets/*.yaml

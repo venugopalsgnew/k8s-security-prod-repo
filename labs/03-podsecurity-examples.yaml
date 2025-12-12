@@ -1,0 +1,45 @@
+
+# Example Pod that violates 'restricted' PSA
+apiVersion: v1
+kind: Pod
+metadata:
+  name: insecure-pod
+  namespace: secure-demo
+  labels:
+    app: insecure
+spec:
+  containers:
+  - name: busybox
+    image: busybox:1.35
+    command: ["sh","-c","sleep 3600"]
+    securityContext:
+      runAsUser: 0
+      allowPrivilegeEscalation: true
+      capabilities:
+        add: ["NET_ADMIN"]
+---
+# Hardened Pod example
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hardened-pod
+  namespace: secure-demo
+  labels:
+    app: secure
+spec:
+  containers:
+  - name: app
+    image: nginx:1.25
+    securityContext:
+      runAsUser: 1000
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+      capabilities:
+        drop: ["ALL"]
+    resources:
+      requests:
+        cpu: "100m"
+        memory: "128Mi"
+      limits:
+        cpu: "500m"
+        memory: "256Mi"

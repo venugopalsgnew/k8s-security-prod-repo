@@ -1,0 +1,6 @@
+
+- rule: Write to sensitive file
+  desc: Detect process writing to /etc/shadow
+  condition: open_write and fd.name = /etc/shadow
+  output: "Sensitive file write (user=%user.name command=%proc.cmdline file=%fd.name)"
+  priority: WARNING
